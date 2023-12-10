@@ -1,12 +1,22 @@
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2023.4.3"
+    id "edu.wpi.first.GradleRIO" version "2023.4.2"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
-def ROBOT_MAIN_CLASS = "frc.robot.Main"
+// Maven central needed for JUnit
+repositories {
+    mavenCentral()
+    maven {
+        name "JitPack"
+        url "https://jitpack.io"
+    }
+}
+
+// Set this to true to enable desktop support.
+def includeDesktopSupport = false
 
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project DeployUtils.
@@ -39,12 +49,6 @@ deploy {
 
 def deployArtifact = deploy.targets.roborio.artifacts.frcJava
 
-// Set to true to use debug for JNI.
-wpi.java.debugJni = false
-
-// Set this to true to enable desktop support.
-def includeDesktopSupport = true
-
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
 // Also defines JUnit 5.
 dependencies {
@@ -70,22 +74,38 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 }
 
+// Is this old?
+
+// To specify a license in the pom:
+//install {
+//  repositories.mavenInstaller {
+//    pom.project {
+//      licenses {
+//        license {
+//          name 'The Apache Software License, Version 2.0'
+//          url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//          distribution 'repo'
+//        }
+//      }
+//    }
+//  }
+//}
+
 test {
     useJUnitPlatform()
     systemProperty 'junit.jupiter.extensions.autodetection.enabled', 'true'
 }
 
-// Simulation configuration (e.g. environment variables).
-wpi.sim.addGui().defaultEnabled = true
-wpi.sim.addDriverstation()
+wrapper {
+    gradleVersion = '6.0.1'
+    distributionType = Wrapper.DistributionType.ALL
+}
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
 // in order to make them all available at runtime. Also adding the manifest so WPILib
 // knows where to look for our Robot Class.
 jar {
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-    manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 // Configure jar and deploy tasks
