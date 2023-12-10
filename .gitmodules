@@ -4,3 +4,9 @@
 [submodule "src/main/nframework/archive/22-offseason-robocode"]
 	path = src/main/nframework/archive/22-offseason-robocode
 	url = https://github.com/team-nf/22-offseason-robocode.git
+[submodule "src/main/nframework/archive/c4kir"]
+	path = src/main/nframework/archive/c4kir
+	url = https://github.com/team-nf/22-offseason-robocode.git
+[submodule "src/main/nframework/archive/blacksabahat"]
+	path = src/main/nframework/archive/blacksabahat
+	url = https://github.com/team-nf/black-sabahat.git
