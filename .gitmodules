@@ -1,0 +1,6 @@
+[submodule "src/main/nframework/archive/black-sabahat"]
+	path = src/main/nframework/archive/black-sabahat
+	url = https://github.com/team-nf/black-sabahat.git
+[submodule "src/main/nframework/archive/22-offseason-robocode"]
+	path = src/main/nframework/archive/22-offseason-robocode
+	url = https://github.com/team-nf/22-offseason-robocode.git
